@@ -1,7 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
-
+  
   map.namespace :admin do |a|
     a.resources :users, :collection => {:search => :post}
+    a.resources :pages
   end
 
   map.resources :profiles, 
@@ -17,6 +18,10 @@ ActionController::Routing::Routes.draw do |map|
     forum.resources :topics, :controller => :forum_topics do |topic|
       topic.resources :posts, :controller => :forum_posts
     end
+  end
+  
+  map.namespace :content do |content|
+    content.resources :categories
   end
 
   map.with_options(:controller => 'accounts') do |accounts|

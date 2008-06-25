@@ -1,0 +1,13 @@
+<div id="sub_nav">
+  <%= inline_tb_link('Create a new page', "new_page", {:title => "Creating a new page"}, {:height => 150}) %>
+</div>
+
+<div id="new_page" class="hidden">
+  <%= render :partial => 'new_form' %>
+</div>
+
+<ul id="pages_list">
+</ul>
+<div id="no_pages_note" style="display: <%= @pages.empty? ? "block" : "none" %> ;">
+  No pages exist.
+</div>

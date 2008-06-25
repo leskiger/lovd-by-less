@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
   
   def pagination_defaults
-    @page = (params[:page] || 1).to_i
+    @page = ((!params[:page].is_a?(Hash) ? params[:page] : nil) || 1).to_i
     @page = 1 if @page < 1
     @per_page = (params[:per_page] || (RAILS_ENV=='test' ? 1 : 40)).to_i
   end
