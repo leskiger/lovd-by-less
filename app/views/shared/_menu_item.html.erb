@@ -1,0 +1,25 @@
+<%
+ level ||= 0
+ if !menu_item.children.empty?
+  if level == 0
+    li_class = "drop"
+  else
+    li_class = "fly"
+  end
+ else
+   li_class = ""
+ end
+%>
+
+<li class="<%= li_class %>">
+  <a href="<%= page_path menu_item %>">
+    <%= menu_item.title%>
+    <%= "<!--[if IE 7]><!-->" unless menu_item.children.empty? %>
+  </a>
+    <%= "    <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->" unless menu_item.children.empty? %>
+<% unless menu_item.children.empty? %>
+  <ul>
+    <%= render :partial => 'shared/menu_item', :collection => menu_item.children, :locals => {:level => level} %>
+  </ul>
+<% end %>
+</li>

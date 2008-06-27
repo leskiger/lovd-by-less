@@ -1,0 +1,21 @@
+<%
+  tb_height = page.kind == "content" ? 620 : 190
+  tb_width = page.kind == "content" ? 800 : 300
+%>
+
+<li id="<%= page.dom_id%>" class="page">
+  <%= page_icon page %><%=h page.title %>
+  <%= inline_tb_link('edit', "#{page.dom_id}_edit", {:title => "Editing #{page.kind}",
+                                                    :id => "#{page.dom_id}_edit_link"}, {:height => tb_height, :width => tb_width}) %>
+  
+  <%= link_to_remote 'Destroy', {:url => admin_page_path(page), :confirm => 'Are you sure?', :method => :delete}, {:class=> "destroy", :id => "#{page.dom_id}_destroy_link"} %>
+  
+  <ul id="<%= page.dom_id %>_children">
+    <%= render :partial => 'page', :collection => page.children %>
+  </ul>
+  
+  <div class="hidden" id="<%=page.dom_id%>_edit">
+    <%= render :partial => 'form', :locals => {:page => page}%>
+  </div>
+  
+</li>

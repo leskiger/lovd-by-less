@@ -33,8 +33,11 @@ class LessFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
   
-  def select method, options = {}
-    front(method, options) + super + back(method, options)
+  # def select method, options = {}
+  #   front(method, options) + super + back(method, options)
+  # end
+  def select method, options = [], html = {}
+    front(method, html) + super + back(method, html)
   end
   
   def text_field method, options = {}
@@ -47,7 +50,10 @@ class LessFormBuilder < ActionView::Helpers::FormBuilder
   
   
   def text_area method, options = {}
-    front(method, options) + super + back(method, options)
+    options[:plain] ||= false
+    html = super(method, options.except(:plain))
+    html = front(method, options) + html + back(method, options) unless options[:plain]
+    html
   end
   
   def check_box method, options = {}

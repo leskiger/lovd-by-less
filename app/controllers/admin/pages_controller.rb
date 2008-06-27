@@ -3,72 +3,55 @@ class Admin::PagesController < ApplicationController
   before_filter :setup
   
   def index
-    @pages = Page.root.nil? ? Array.new : Page.root.full_tree
-
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @pages }
+      format.xml  { render :xml => @root_pages }
     end
-  end
-  
-  def show
-    @page = Page.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @page }
-    end
-  end
-
-  def new
-    @page = Page.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @page }
-    end
-  end
-
-  def edit
-    @page = Page.find(params[:id])
   end
 
   def create
     @page = Page.new(params[:page])
-
     post_response @page.save, :create
   end
 
   def update
-    @page = Page.find(params[:id])
-
-    respond_to do |format|
-      if @page.update_attributes(params[:page])
-        flash[:notice] = 'Page was successfully updated.'
-        format.html { redirect_to(@page) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
-      end
-    end
+    post_response @page.update_attributes(params[:page]), :update
   end
 
   def destroy
-    @page = Page.find(params[:id])
     @page.destroy
-
     respond_to do |format|
-      format.html { redirect_to(pages_url) }
-      format.xml  { head :ok }
+      if @page.destroy
+        format.html { redirect_to(pages_url) }
+        format.xml  { head :ok }
+        format.js do
+          render :update do |page|
+            page.visual_effect :puff, @page.dom_id
+            # page.remove @page.dom_id
+          end
+        end
+      else
+        format.html { redirect_to(pages_url) }
+        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
+        format.js do
+          render :update do |page|
+            page.alert @page.errors.to_s
+          end
+        end
+      end
     end
+  end
+  
+  def update_positions
+    logger.info params[:pages_list].to_yaml
+    Page.reorder params[:pages_list]
+    render :nothing => true
   end
   
 private
 
   def setup
     @page = params[:id] ? Page.find(params[:id]) : Page.new
-    @page = Page.new
   end
   
   def post_response saved, action
@@ -85,14 +68,17 @@ private
           render :update do |page|
             if action == :create
               page.insert_html :bottom, :pages_list, :partial => 'page', :object => @page
-              page.visual_effect :fade, "no_pages_message"
+              page.visual_effect :fade, "no_pages_note"
               page << "$$('#new_page input[type=\"text\"]', '#new_forum textarea').each(function(input){input.value=''});"
+              page << "Sortable.destroy('pages_list');"
+              page << "Sortable.create(\"pages_list\", {dropOnEmpty:true, onUpdate:function(){new Ajax.Request('/admin/pages/update_positions', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"pages_list\")})}, tree:true})"
             else
               page.replace_html @page.dom_id, :partial => 'page', :object => @page
-              # page << "$('TB_ajaxContent').innerHTML = ''" #otherwise we get double content on next show
+              page << "$('TB_ajaxContent').innerHTML = ''" #otherwise we get double content on next show
             end
-            # page << "tb_init('\##{@page.dom_id}_edit_link')"
-            page << "tb_remove()"
+            page << "tb_init('\##{@page.dom_id}_edit_link');"
+            page << "jQuery(\".markitup\").markItUp(mySettings);"
+            page << "tb_remove();"
             page.visual_effect :highlight, @page.dom_id
           end
         end

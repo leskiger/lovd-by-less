@@ -1,15 +1,25 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: MyString
+root_page:
+  title: root
   body: MyText
-  parent_id: 1
+  parent_id: 
   rgt: 1
   lft: 1
+  kind: category
 
-two:
-  title: MyString
+link_page:
+  title: link_page
   body: MyText
-  parent_id: 1
   rgt: 1
   lft: 1
+  kind: link
+  parent_id: 1
+
+content_page:
+  title: content_page
+  body: MyText
+  rgt: 1
+  lft: 1
+  kind: content
+  parent_id: 1

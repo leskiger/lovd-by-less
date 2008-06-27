@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/spider_test/README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu May 15 13:22:25 -0700 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+SpiderTester
+</p>
+<h6>======</h6>
+<p>
+SpiderTester is an automated integration-testing script that iterates over
+every page in your application. It performs a few valuable tasks for you:
+</p>
+<pre>
+  - parses the html of every page, so if you have invalid html, you will be warned.
+  - finds every link to within your site and follows it, whether static or dynamic.
+  - finds every Ajax.Updater link and follows it.
+  - finds every form and tries to submit it, filling in values where possible.
+</pre>
+<p>
+This is helpful in determining:
+</p>
+<pre>
+  - missing static pages (.html)
+  - poor code coverage - forgot to test a file?  Don't wait for a user to find it.
+  - simple fuzzing of form values.
+  - automated testing of form paths.  Often we have forms which point to incorrect
+    locations, and up until now this has been impossible to test in an automated fashion
+    or without being strongly coupled to your code.
+</pre>
+<h6>==========</h6>
+<p>
+USAGE
+</p>
+<p>
+$ script/plugin install svn://caboo.se/plugins/court3nay/spider_test $
+script/generate integration_test spider_test
+</p>
+<p>
+Load up the test/integration/spider_test.rb and make it look something like
+this, replacing your own implementation details where appropriate.
+You&#8216;ll probably want to load all of your fixtures.
+</p>
+<pre>
+  require &quot;#{File.dirname(__FILE__)}/../test_helper&quot;
+
+  class SpiderTest &lt; ActionController::IntegrationTest
+    fixtures :users, :roles, :images, :categories
+    include SpiderIntegrator
+
+    def test_spider
+      get '/'
+      assert_response :success
+
+      spider(@response.body, '/')
+    end
+
+  end
+</pre>
+<p>
+If you require a login for your app, you&#8216;ll need to specifically log
+in. I do it like:
+</p>
+<pre>
+  require &quot;#{File.dirname(__FILE__)}/../test_helper&quot;
+
+  class SpiderTest &lt; ActionController::IntegrationTest
+    fixtures :users, :roles, :images, :categories
+    include SpiderIntegrator
+
+    def test_spider
+      get '/sessions/new'
+      assert_response :success
+      post '/sessions/create', :login =&gt; 'admin', :password =&gt; 'test'
+      assert session[:user]
+      assert_response :redirect
+      assert_redirected_to '/'
+      follow_redirect!
+
+      spider(@response.body, '/')
+    end
+
+  end
+</pre>
+<p>
+Todo:
+</p>
+<pre>
+  - better, aka more random, fuzzing.
+    currently, I check the fieldname and change the data types accordingly.  It'd be
+    good to have some more advanced algorithm in here
+
+  - specify which actions to ignore
+    you can modify this by editing the plugin and setting @visited_urls and @visited_forms
+    but this should be more easily settable.
+
+  - use hpricot instead of html::document
+    no clue, really, but I hear hpricot is faster.
+
+  x better capturing of errors
+    instead of dying each time there's an error, store them all up so the user can fix
+    'em all at once.
+</pre>
+<p>
+Changelog:
+</p>
+<p>
+SVN
+</p>
+<pre>
+      Better capturing of errors (waits until the end to display the errors or missing pages)
+      More fun status dots (! for error, ? for missing file)
+</pre>
+<p>
+0.1 : Initial release
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -6,8 +6,16 @@
   <%= render :partial => 'new_form' %>
 </div>
 
+<h1>Content Pages</h1>
+<p>
+  Drag and drop pages to change their order.
+</p>
 <ul id="pages_list">
+  <%= render :partial => 'page', :collection => @pages %>
 </ul>
+
+<%= sortable_element "pages_list", :url => {:action => :update_positions}, :tree => true, :dropOnEmpty => true %>
+
 <div id="no_pages_note" style="display: <%= @pages.empty? ? "block" : "none" %> ;">
   No pages exist.
 </div>

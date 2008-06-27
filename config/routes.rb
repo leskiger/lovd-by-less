@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.namespace :admin do |a|
     a.resources :users, :collection => {:search => :post}
-    a.resources :pages
+    a.resources :pages, :collection => {:update_positions => :post}
   end
 
   map.resources :profiles, 
@@ -20,9 +20,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
-  map.namespace :content do |content|
-    content.resources :categories
-  end
+  map.resources :pages
 
   map.with_options(:controller => 'accounts') do |accounts|
     accounts.login   "/login",   :action => 'login'

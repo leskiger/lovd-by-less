@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging "password"
   
   
-  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults, :check_featured
+  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults, :check_featured, :get_pages
   after_filter :store_location
   layout 'application'  
   
@@ -101,5 +101,9 @@ class ApplicationController < ActionController::Base
     @level = []
     false
   end
-
+  
+  #setup for menus
+  def get_pages
+    @pages = Page.root ? Page.root.children : Array.new
+  end
 end

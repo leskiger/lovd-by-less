@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: ThoughtBot::Shoulda::Controller::ClassMethods::ResourceOptions</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">ThoughtBot::Shoulda::Controller::ClassMethods::ResourceOptions</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../../files/vendor/plugins/shoulda/lib/shoulda/controller_tests/controller_tests_rb.html">
+                vendor/plugins/shoulda/lib/shoulda/controller_tests/controller_tests.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+A <a href="ResourceOptions.html">ResourceOptions</a> object is passed into
+should_be_restful in order to configure the tests for your controller.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  class UsersControllerTest &lt; Test::Unit::TestCase
+    load_all_fixtures
+
+    def setup
+      ...normal setup code...
+      @user = User.find(:first)
+    end
+
+    should_be_restful do |resource|
+      resource.identifier = :id
+      resource.klass      = User
+      resource.object     = :user
+      resource.parent     = []
+      resource.actions    = [:index, :show, :new, :edit, :update, :create, :destroy]
+      resource.formats    = [:html, :xml]
+
+      resource.create.params = { :name =&gt; &quot;bob&quot;, :email =&gt; 'bob@bob.com', :age =&gt; 13}
+      resource.update.params = { :name =&gt; &quot;sue&quot; }
+
+      resource.create.redirect  = &quot;user_url(@user)&quot;
+      resource.update.redirect  = &quot;user_url(@user)&quot;
+      resource.destroy.redirect = &quot;users_url&quot;
+
+      resource.create.flash  = /created/i
+      resource.update.flash  = /updated/i
+      resource.destroy.flash = /removed/i
+    end
+  end
+</pre>
+<p>
+Whenever possible, the resource attributes will be set to sensible
+defaults.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="ResourceOptions/ActionOptions.html" class="link">ThoughtBot::Shoulda::Controller::ClassMethods::ResourceOptions::ActionOptions</a><br />
+Class <a href="ResourceOptions/DeniedOptions.html" class="link">ThoughtBot::Shoulda::Controller::ClassMethods::ResourceOptions::DeniedOptions</a><br />
+
+    </div>
+
+
+    <div id="aliases-list">
+      <h3 class="section-bar">External Aliases</h3>
+
+      <div class="name-list">
+                        <table summary="aliases">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">parent</td>
+          <td>-&gt;</td>
+          <td class="context-item-value">parents</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">parent=</td>
+          <td>-&gt;</td>
+          <td class="context-item-value">parents=</td>
+        </tr>
+                        </table>
+      </div>
+    </div>
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">actions</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Actions that should be tested. Must be a subset of VALID_ACTIONS (default).
+Tests for each actionw will only be generated if the action is listed here.
+The special value of :all will test all of the REST actions.
+
+<p>
+Example (for a read-only controller):
+</p>
+<pre>
+  resource.actions = [:show, :index]
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">create</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+<a href="ResourceOptions/ActionOptions.html">ActionOptions</a> object
+specifying options for the create action.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">denied</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+<a href="ResourceOptions/DeniedOptions.html">DeniedOptions</a> object
+specifying which actions should return deny a request, and what should
+happen in that case.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">destroy</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+<a href="ResourceOptions/ActionOptions.html">ActionOptions</a> object
+specifying options for the desrtoy action.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">formats</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Formats that should be tested. Must be a subset of VALID_FORMATS (default).
+Each action will be tested against the formats listed here. The special
+value of :all will test all of the supported formats.
+
+<p>
+Example:
+</p>
+<pre>
+  resource.actions = [:html, :xml]
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">identifier</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Name of key in params that references the primary key. Will almost always
+be :id (default), unless you are using a plugin or have patched rails.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">klass</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Name of the <a href="../../ActiveRecord.html">ActiveRecord</a> class this
+resource is responsible for. Automatically determined from test class if
+not explicitly set. UserTest =&gt; :user
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">object</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Name of the instantiated <a href="../../ActiveRecord.html">ActiveRecord</a>
+object that should be used by some of the tests. Defaults to the
+underscored name of the AR class. CompanyManager =&gt; :company_manager
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">parent</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Name of the parent AR objects.
+
+<p>
+Example:
+</p>
+<pre>
+  # in the routes...
+  map.resources :companies do
+    map.resources :people do
+      map.resources :limbs
+    end
+  end
+
+  # in the tests...
+  class PeopleControllerTest &lt; Test::Unit::TestCase
+    should_be_restful do |resource|
+      resource.parent = :companies
+    end
+  end
+
+  class LimbsControllerTest &lt; Test::Unit::TestCase
+    should_be_restful do |resource|
+      resource.parents = [:companies, :people]
+    end
+  end
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">update</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+<a href="ResourceOptions/ActionOptions.html">ActionOptions</a> object
+specifying options for the update action.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

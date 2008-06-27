@@ -2,7 +2,7 @@ module PagesTestHelper
 
   def valid_page_attributes
     {
-      :title => "Test Page"
+      :title => "Test Page", :kind => "content"
     }
   end
 

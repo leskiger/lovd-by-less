@@ -158,9 +158,18 @@ module SymetrieCom
         # On destruction, delete all children and shift the lft/rgt values back to the left so the counts still work.
         def before_destroy # already protected by a transaction
           return if self[right_col_name].nil? || self[left_col_name].nil?
-          self.reload # in case a concurrent move has altered the indexes
+          logger.info "**** before_destroy bns before reload"
+          begin
+            self.reload # in case a concurrent move has altered the indexes
+          rescue ActiveRecord::RecordNotFound
+            
+          end
           dif = self[right_col_name] - self[left_col_name] + 1
+          logger.info "**** before_destroy bns before delete_all"
           base_set_class.delete_all( "#{scope_condition} AND (#{left_col_name} BETWEEN #{self[left_col_name]} AND #{self[right_col_name]})" )
+          
+          logger.info "**** before_destroy bns before update_all"
+          
           base_set_class.update_all("#{left_col_name} = CASE \
                                       WHEN #{left_col_name} > #{self[right_col_name]} THEN (#{left_col_name} - #{dif}) \
                                       ELSE #{left_col_name} END, \

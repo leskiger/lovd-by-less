@@ -3,9 +3,11 @@ class CreatePages < ActiveRecord::Migration
     create_table :pages do |t|
       t.string :title
       t.text :body
+      t.string :link_url
       t.integer :parent_id
       t.integer :rgt
       t.integer :lft
+      t.string :kind
 
       t.timestamps
     end
