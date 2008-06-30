@@ -9,10 +9,13 @@
  else
    li_class = ""
  end
+ 
+ link_url = menu_item.kind == "category" ? "#" : menu_item_url(menu_item) 
+ link_class = menu_item.kind == "category" ? "category" : ""
 %>
 
 <li class="<%= li_class %>">
-  <a href="<%= page_path menu_item %>">
+  <a href="<%= link_url %>" class="<%= link_class %>">
     <%= menu_item.title%>
     <%= "<!--[if IE 7]><!-->" unless menu_item.children.empty? %>
   </a>

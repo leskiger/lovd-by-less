@@ -1,28 +1,13 @@
 class Page < ActiveRecord::Base
   
-  acts_as_nested_set
+  acts_as_nested_set :destroy_children => false
   
-  validates_presence_of :title
-  
-  @@root_page_title = 'root'
+  validates_presence_of :title, :kind
   
   after_create :set_initial_parent
   before_create :ensure_root_exists
   
-  alias_method :old_before_destroy, :before_destroy
-  
-  def before_destroy
-    logger.info "*** start of before_destroy"
-    if !children.empty?
-      logger.info "*** should not destroy, has children"
-      errors.add_to_base "You cannnot destroy a page that has children."
-      return false
-    else
-      logger.info "*** about to call old_before_destroy"
-      return old_before_destroy
-      logger.info "*** end of before_destroy"
-    end
-  end
+  @@root_page_title = 'root'
   
   def self.reorder order_array, parent = nil
     parent ||= Page.root
@@ -43,13 +28,6 @@ private
   
   def set_initial_parent
     move_to_child_of self.class.root unless self.title == @@root_page_title
-  end
-  
-  def check_for_children
-    unless children.empty?
-      errors.add_to_base "You cannnot destroy a page that has children."
-      return false
-    end
   end
   
 end

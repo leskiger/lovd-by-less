@@ -35,5 +35,9 @@ ActionController::Routing::Routes.draw do |map|
     home.tos '/tos', :action => 'terms'
     home.contact '/contact', :action => 'contact'
   end
+  
+  map.with_options :controller => 'textile_parser' do |parser|
+    parser.parse '/textile_parser', :action => 'parse'
+  end
 
 end

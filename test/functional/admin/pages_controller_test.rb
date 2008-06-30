@@ -107,17 +107,22 @@ class Admin::PagesControllerTest < ActionController::TestCase
   
   should "destroy a page for :admin (HTML)" do
     page = Page.create(valid_page_attributes)
-    page.renumber_full_tree
-    delete :destroy, {:id => page.id}, {:user => profiles(:admin).id}
-    assert_response 302
-    assert flash[:error].nil?
+    # page.renumber_full_tree
+    assert_difference "Page.count", -1 do
+      delete :destroy, {:id => page.id}, {:user => profiles(:admin).id}
+      assert_response 302
+      assert flash[:error].nil?
+    end
   end
   
   should "destroy a page for :admin (JS)" do
     page = Page.create(valid_page_attributes)
-    page.renumber_full_tree
-    delete :destroy, {:id => page.id, :format => 'js'}, {:user => profiles(:admin).id}
-    assert_response :success
+    # page.renumber_full_tree
+    assert_difference "Page.count", -1 do
+      delete :destroy, {:id => page.id, :format => 'js'}, {:user => profiles(:admin).id}
+      assert_response :success
+      assert_select_rjs :remove
+    end
   end
   
 end

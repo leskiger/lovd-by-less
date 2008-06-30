@@ -4,18 +4,29 @@
 %>
 
 <li id="<%= page.dom_id%>" class="page">
-  <%= page_icon page %><%=h page.title %>
-  <%= inline_tb_link('edit', "#{page.dom_id}_edit", {:title => "Editing #{page.kind}",
-                                                    :id => "#{page.dom_id}_edit_link"}, {:height => tb_height, :width => tb_width}) %>
+  <%= page_icon page %>
   
-  <%= link_to_remote 'Destroy', {:url => admin_page_path(page), :confirm => 'Are you sure?', :method => :delete}, {:class=> "destroy", :id => "#{page.dom_id}_destroy_link"} %>
+  <span class="page_title"><%=h page.title %></span>
   
-  <ul id="<%= page.dom_id %>_children">
-    <%= render :partial => 'page', :collection => page.children %>
-  </ul>
+  <%= inline_tb_link(icon_tag(:pencil), "#{page.dom_id}_edit", {:title => "Editing #{page.kind}",
+                                                    :id => "#{page.dom_id}_edit_link"}, 
+                                                    {:height => tb_height, :width => tb_width}) %>
+  
+  <%= link_to_remote icon_tag(:remove), {:url => admin_page_path(page), 
+                                                     :confirm => 'Are you sure?', 
+                                                     :method => :delete}, 
+                                                     {:class=> "destroy", 
+                                                      :id => "#{page.dom_id}_destroy_link"} %>
+  
   
   <div class="hidden" id="<%=page.dom_id%>_edit">
     <%= render :partial => 'form', :locals => {:page => page}%>
   </div>
+  
+  <ul id="<%= page.dom_id %>_children">
+    <li class="allow_child_nodes_hack">&nbsp;</li>
+    <%= render :partial => 'page', :collection => page.children %>
+  </ul>
+
   
 </li>

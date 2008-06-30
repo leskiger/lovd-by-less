@@ -26,8 +26,7 @@ class Admin::PagesController < ApplicationController
         format.xml  { head :ok }
         format.js do
           render :update do |page|
-            page.visual_effect :puff, @page.dom_id
-            # page.remove @page.dom_id
+            page.visual_effect :puff, @page.dom_id, :complete => page.remove(@page.dom_id)
           end
         end
       else

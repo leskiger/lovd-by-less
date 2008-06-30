@@ -319,6 +319,15 @@ CMS Styles
 	border-left: 1px dashed grey;
 }
 
+#pages_list .page_title {
+	font-size: 16px;
+}
+
+#pages_list li.allow_child_nodes_hack {
+	visibility: hidden;
+	height: 1px;
+}
+
 form input.title {
 	font-size: 28px;
 }
@@ -340,15 +349,17 @@ way to fit your requirements.
  
 /* Add a margin - for this demo only - and a relative position with a high z-index to make it appear over any element below */
 #menu_container {margin-top: 5px; position:relative; width:735px; height:25px; z-index:100;}
- 
+
+#pmenu a.category:hover {text-decoration: none;}
+
 /* Get rid of the margin, padding and bullets in the unordered lists */
 #pmenu, #pmenu ul {padding:0; margin:0; list-style-type: none;}
  
 /* Set up the link size, color and borders */
-#pmenu a, #pmenu a:visited {display:block;width:120px; font-size:11px; height:25px; line-height:24px; font-weight: bold; text-indent:5px; border:1px solid #000; border-width:1px 0 1px 1px;}
+#pmenu a, #pmenu a:visited, #pmenu span.category {display:block;width:120px; font-size:11px; height:25px; line-height:24px; font-weight: bold; text-indent:5px; border:1px solid #000; border-width:1px 0 1px 1px;}
  
 /* Set up the sub level borders */
-#pmenu li ul li a, #pmenu li ul li a:visited {border-width:0 1px 1px 1px;}
+#pmenu li ul li a, #pmenu li ul li a:visited, #pmenu li ul li span.category {border-width:0 1px 1px 1px;}
 #pmenu li a.enclose, #pmenu li a.enclose:visited {border-width:1px;}
  
 /* Set up the list items */

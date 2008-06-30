@@ -35,7 +35,7 @@
 					previewInWindow:		'', // 'width=800, height=600, resizable=yes, scrollbars=yes'
 					previewAutoRefresh:		true,
 					previewPosition:		'after',
-					previewTemplatePath:	'~/templates/preview.html',
+					previewTemplatePath:	'/javascripts/markitup/templates/preview.html',
 					previewParserPath:		'',
 					previewParserVar:		'data',
 					resizeHandle:			true,
@@ -464,10 +464,12 @@
 					} );
 				} else {
 					if (!template) {
+						alert('loading template');
 						$.ajax( {
 							async: false,
 							url: options.previewTemplatePath,
 							success: function(data) {
+								alert('loaded_template');
 								template = localize(data, 1); 
 							}
 						} );

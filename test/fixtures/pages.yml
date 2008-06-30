@@ -4,22 +4,30 @@ root_page:
   title: root
   body: MyText
   parent_id: 
-  rgt: 1
+  rgt: 8
   lft: 1
   kind: category
 
-link_page:
-  title: link_page
+catagory_page:
+  title: content_page
   body: MyText
-  rgt: 1
-  lft: 1
-  kind: link
+  rgt: 3
+  lft: 2
+  kind: category
   parent_id: 1
 
 content_page:
   title: content_page
   body: MyText
-  rgt: 1
-  lft: 1
+  rgt: 5
+  lft: 4
   kind: content
+  parent_id: 1
+
+link_page:
+  title: link_page
+  body: MyText
+  rgt: 7
+  lft: 6
+  kind: link
   parent_id: 1

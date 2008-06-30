@@ -19,17 +19,22 @@ module SymetrieCom
         # * +text_column+ - Column name for the title field (optional). Used as default in the 
         #   {your-class}_options_for_select helper method. If empty, will use the first string field 
         #   of your model class.
+        # * +destroy_chilren+ - Should children be destroyed when a record is destroyed. If false,
+        #   error will be added if a destroy is attempted on a record with chilren. (default: +true+).
         def acts_as_nested_set(options = {})          
+          
+          options[:destroy_chilren] = true if options[:destroy_chilren].nil? 
           
           options[:scope] = "#{options[:scope]}_id".intern if options[:scope].is_a?(Symbol) && options[:scope].to_s !~ /_id$/
           
           write_inheritable_attribute(:acts_as_nested_set_options,
-             { :parent_column  => (options[:parent_column] || 'parent_id'),
-               :left_column    => (options[:left_column]   || 'lft'),
-               :right_column   => (options[:right_column]  || 'rgt'),
-               :scope          => (options[:scope] || '1 = 1'),
-               :text_column    => (options[:text_column] || columns.collect{|c| (c.type == :string) ? c.name : nil }.compact.first),
-               :class          => self # for single-table inheritance
+             { :parent_column   => (options[:parent_column] || 'parent_id'),
+               :left_column     => (options[:left_column]   || 'lft'),
+               :right_column    => (options[:right_column]  || 'rgt'),
+               :scope           => (options[:scope] || '1 = 1'),
+               :text_column     => (options[:text_column] || columns.collect{|c| (c.type == :string) ? c.name : nil }.compact.first),
+               :class           => self, # for single-table inheritance
+               :destroy_chilren => (options.include?(:destroy_children) ? options[:destroy_children] : true)
               } )
           
           class_inheritable_reader :acts_as_nested_set_options
@@ -155,28 +160,40 @@ module SymetrieCom
           self[right_col_name] = maxright+2
         end
         
+        # def before_destroy
+        #   logger.info "*** start of before_destroy"
+        #   if !children.empty?
+        #     logger.info "*** should not destroy, has children"
+        #     errors.add_to_base "You cannnot destroy a page that has children."
+        #     return false
+        #   else
+        #     logger.info "*** about to call old_before_destroy"
+        #     return old_before_destroy
+        #     logger.info "*** end of before_destroy"
+        #   end
+        # end
+        
         # On destruction, delete all children and shift the lft/rgt values back to the left so the counts still work.
         def before_destroy # already protected by a transaction
           return if self[right_col_name].nil? || self[left_col_name].nil?
-          logger.info "**** before_destroy bns before reload"
-          begin
-            self.reload # in case a concurrent move has altered the indexes
-          rescue ActiveRecord::RecordNotFound
-            
+          unless acts_as_nested_set_options[:destroy_children] or children.empty?
+            errors.add_to_base "You cannot destroy a #{self.class.name} that has children."
+            return false
+          else
+            begin
+              self.reload # in case a concurrent move has altered the indexes
+            rescue ActiveRecord::RecordNotFound
+            end
+            dif = self[right_col_name] - self[left_col_name] + 1
+            base_set_class.delete_all( "#{scope_condition} AND (#{left_col_name} BETWEEN #{self[left_col_name]} AND #{self[right_col_name]})" )          
+            base_set_class.update_all("#{left_col_name} = CASE \
+                                        WHEN #{left_col_name} > #{self[right_col_name]} THEN (#{left_col_name} - #{dif}) \
+                                        ELSE #{left_col_name} END, \
+                                   #{right_col_name} = CASE \
+                                        WHEN #{right_col_name} > #{self[right_col_name]} THEN (#{right_col_name} - #{dif} ) \
+                                        ELSE #{right_col_name} END",
+                                   scope_condition)
           end
-          dif = self[right_col_name] - self[left_col_name] + 1
-          logger.info "**** before_destroy bns before delete_all"
-          base_set_class.delete_all( "#{scope_condition} AND (#{left_col_name} BETWEEN #{self[left_col_name]} AND #{self[right_col_name]})" )
-          
-          logger.info "**** before_destroy bns before update_all"
-          
-          base_set_class.update_all("#{left_col_name} = CASE \
-                                      WHEN #{left_col_name} > #{self[right_col_name]} THEN (#{left_col_name} - #{dif}) \
-                                      ELSE #{left_col_name} END, \
-                                 #{right_col_name} = CASE \
-                                      WHEN #{right_col_name} > #{self[right_col_name]} THEN (#{right_col_name} - #{dif} ) \
-                                      ELSE #{right_col_name} END",
-                                 scope_condition)
         end
         
         # By default, records are compared and sorted using the left column.

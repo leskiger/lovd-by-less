@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; utf-8" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <title><%= @title || SITE_NAME %></title>
+  <%= javascript_include_tag :defaults, 'jquery', 'thickbox', 'truncator', 'markitup/jquery.markitup.js',
+                             'markitup/sets/textile/set.js', :cache=>true %>
+  <%= stylesheet_link_tag 'reset', 'ie', 'application', '../javascripts/markitup/sets/textile/style.css',
+                          '../javascripts/markitup/skins/lovd/style.css', :cache=>true %>
+  <%= yield :head%>
+  
+  <!--[if lt IE 7.]>
+    <script defer type="text/javascript" src="/javascripts/pngfix.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body style="background: black; text-align: left;">
+
+    <%= yield %>
+
+  </body>
+  </html>
