@@ -1,0 +1,103 @@
+<div id="<%=@page.dom_id%>_edit">
+  <%= render :partial => 'form', :locals => {:page => @page}%>
+  
+  
+  <div id="assets_holder" class="hidden">
+    <div class="image_form">
+      <div id="asset_html_form">
+        <%= render :partial => 'admin/assets/form'%>
+      </div>
+      <div id="asset_swfupload_form" class="hidden">
+        <div class="row button">
+          <input type="button" value="Upload Assets" id="swfupload_button" class="button">
+        </div>
+        
+          <div id="divFileProgressContainer" class="hidden"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+     <ul id="<%=@page.dom_id%>_assets">
+       <%= render :partial => "admin/assets/asset", :collection => @page.assets%>
+     </ul>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+ var swfu; 
+  
+  jQuery(document).ready(function() {
+    
+    admin_pages_edit_assets_setup();
+    admin_pages_edit_swfupload_setup();
+   
+  });
+  
+  function admin_pages_edit_assets_setup(){
+    jQuery('form.asset_insert_form').submit(function (event){ return false; });
+    setupMarkItUpInsert('form.asset_insert_form input.insert_button');
+   
+  }
+  
+  function setupMarkItUpInsert(selector){
+    jQuery(selector).click(function (event){
+      markItUpAssetInsert(event);
+    });
+  }
+  
+  function markItUpAssetInsert(event){
+    var form = jQuery(event.target).parent('form');
+    var textile_alignments = {left : '<', right : '>', center : '='}
+    var asset_path = jQuery(form).find('input[name="asset_path"]').fieldValue();
+    var alignment = jQuery(form).find('input[name="align"]').fieldValue();
+    var textile_alignment = textile_alignments[alignment];
+
+    // var asset_class = 'asset_'+jQuery('input[name="align"]').val();
+    // jQuery.markItUp({ openWith:'<img src="'+asset_path+'" class="'+asset_class+'">'} );
+    jQuery.markItUp({ openWith:'!'+textile_alignment+asset_path+'!'} );
+    tb_remove();
+    return false;
+  }
+  
+  function admin_pages_edit_swfupload_setup(){
+    var settings = {
+			upload_url: "<%= admin_page_assets_path @page %>?_lovd_session_id=<%= session.session_id %>",
+      flash_url : '/flash/swfupload_f9.swf',
+
+      file_size_limit : '10000',
+      file_types : '*.jpg',
+      file_types_description : 'JPG Images',
+      file_upload_limit : '0',
+
+      file_queue_error_handler : fileQueueError,
+      file_dialog_complete_handler : fileDialogComplete,
+      upload_progress_handler : uploadProgress,
+      upload_error_handler : uploadError,
+      upload_success_handler : uploadSuccess,
+      upload_complete_handler : uploadComplete,
+
+			post_params : {
+				authenticity_token : '<%= u form_authenticity_token -%>',
+			},
+
+      custom_settings : { 
+        upload_target : 'divFileProgressContainer',
+      },
+
+      debug: false
+		};
+
+		swfu = new SWFUpload(settings);
+		
+		jQuery('#asset_html_form').hide();
+		jQuery('#asset_swfupload_form').show();
+		
+		jQuery('#swfupload_button').click(function (){
+		  swfu.selectFiles();
+		  this.blur();
+		});
+		
+  }
+  
+</script>

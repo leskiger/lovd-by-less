@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   helper :all
   include ExceptionNotifiable
-  filter_parameter_logging "password"
+  filter_parameter_logging "password"  
   
-  
-  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults, :check_featured
+  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults, :check_featured, :get_pages
+  # before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults
   after_filter :store_location
   layout 'application'  
   
@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
   
   def pagination_defaults
-    @page = (params[:page] || 1).to_i
+    @page = ((!params[:page].is_a?(Hash) ? params[:page] : nil) || 1).to_i
     @page = 1 if @page < 1
     @per_page = (params[:per_page] || (RAILS_ENV=='test' ? 1 : 40)).to_i
   end
@@ -101,5 +101,9 @@ class ApplicationController < ActionController::Base
     @level = []
     false
   end
-
+  
+  #setup for menus
+  def get_pages
+    @pages = Page.root ? Page.root.children : Array.new
+  end
 end

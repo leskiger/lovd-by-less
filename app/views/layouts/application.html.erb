@@ -5,11 +5,16 @@
   <meta name="description" content="" />
   <meta name="keywords" content="" />
   <title><%= @title || SITE_NAME %></title>
-  <%= javascript_include_tag :defaults, 'jquery', 'thickbox', 'truncator', :cache=>true %>
-  <%= stylesheet_link_tag 'reset', 'ie', 'application', :cache=>true %>
-  <%= yield :head%>
+  <%= javascript_include_tag :defaults, 'jquery', 'thickbox', 'truncator', 'jquery.form.js',
+                                        'markitup/jquery.markitup.js', 'markitup/sets/textile/set.js', 
+                                        'jquery.boxy.js', 'swfupload.js', 'swfupload_handlers', :cache=>true %>
+  <%= stylesheet_link_tag 'reset', 'ie', 'application', 'jquery.boxy.css',
+                          '../javascripts/markitup/sets/textile/style.css',
+                          '../javascripts/markitup/skins/lovd/style.css', 'swfupload.css', :cache=>true %>
+  <%= yield :head %>
+  <%= yield :swfupload_js %>
 
-
+  
   <!--[if lt IE 7.]>
     <script defer type="text/javascript" src="/javascripts/pngfix.js"></script>
     <![endif]-->
@@ -46,8 +51,11 @@
               <%= icon(@p, :small) unless @p.blank? %> <strong>Hi, <%= @u.f %></strong> <%= link_to '(logout)', logout_path %> 
               <% end %>
             </div>  
-            <div class="clear"></div>   
-          </div>   
+            <div class="clear"></div>  
+            
+            <%= render :partial => 'shared/menu'%>
+          </div>
+          
 
 
           <div id="main">

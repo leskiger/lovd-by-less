@@ -1,5 +1,14 @@
 How to get LovdByLess up and running
 
+
+WINDOWS USERS READ THIS: http://www.gamutworks.net/blog/?p=17
+
+START BY MAKING SURE your ruby gems are version 1.2.0 or greater:
+* (sudo) gem update --system
+Then add the github repo to your gems:
+* gem sources -a http://gems.github.com
+
+
     * Lovd runs on Ruby on Rails, so first you need to get rails running. Go download rails (http://rubyonrails.org/down) and follow it's instructions to get rails running.
     * The directions in this README file assume some knowledge of rails, but I'll go through it a bit here first.
     * The first thing to do is install the ruby gems that are required. For each gem listed in the README, at the command line, do something like "gem install [gem name]" or "sudo gem install [gem name]".
@@ -19,9 +28,11 @@ Quick Setup (currently for non-Windows users only - due to ferret gem issues):
   1. Edit config/database.yml.tmp to reflect the database names you would like to use.
   2. Edit config/environments/production.rb so asset_host reflects the name of the production asset server
   3. cp config/database.yml.tmp config/database.yml
-  4. rake lovdbyless:getting_started
-  5. rake test
-  6. See step #6 below to continue setup (near "Setup default values")
+  4. MAKE SURE YOU UPGRADE TO GEMS 1.2.
+  5. RUN gem sources -a http://gems.github.com
+  6. rake lovdbyless:getting_started
+  7. rake test
+  8. See step #6 below to continue setup (near "Setup default values")
 
 The getting_started rake task will install all required gems, create the databases in database.yml, 
 and migrate the development and test databases.
@@ -30,20 +41,14 @@ Manual Setup:
 
 Install the Required Gems:
 
-- youtube-g
+1. Install these gems:
 - rflickr
-- uuidtools
-- colored
-- hpricot
-- tzinfo
-- mocha
-- redgreen
 - RedCloth
 - rmagick (will require ImageMagick, which is not a gem)
-- acts_as_ferret
-- ferret
 - win32console (windows only)
-- avatar (version 0.0.5 or greater)
+(The other gems are already provided in the vendor gems dir.)
+2. Run "rake gems:build" to build the gems that need builing
+
 
 TIPS:
 Installing ferret on Windows

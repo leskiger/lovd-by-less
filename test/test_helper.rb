@@ -1,9 +1,9 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
-require 'redgreen' unless ENV['TM_MODE']
 require 'ostruct'
 require 'mocha'
+Dir.glob(File.join(File.dirname(__FILE__), '/test_helpers/*.rb')).each {|f| require f }
 
 # for testing uploaded files
 # place any "already uploaded" files in a subdirectory within /test/ instead of overwriting production files.

@@ -316,3 +316,13 @@ function tb_detectMacXFF() {
   }
 }
 
+function tb_special(pi_href){
+	// get caption: either title or name attribute
+	var caption = this.title || this.name || "";
+		
+	// get rel attribute for image groups
+	var group = this.rel || false;
+		
+	// display the box for the elements href
+	tb_show(caption, pi_href, group);
+}

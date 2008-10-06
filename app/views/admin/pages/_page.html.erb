@@ -1,0 +1,37 @@
+<%
+  tb_height = page.kind == "content" ? 620 : 190
+  tb_width = page.kind == "content" ? 900 : 600
+%>
+
+<li id="<%= page.dom_id%>" class="page">
+  <%= page_icon page %>
+  
+  <span class="page_title"><%=h page.title %></span>
+  <% if page.kind != "content"%>
+  <%= inline_tb_link(icon_tag(:pencil), "#{page.dom_id}_edit", {:title => "Editing #{page.kind}",
+                                                    :id => "#{page.dom_id}_edit_link"}, 
+                                                    {:height => tb_height, :width => tb_width}) %>
+  
+  <div class="hidden" id="<%=page.dom_id%>_edit">
+    <%= render :partial => 'remote_form', :locals => {:page => page}%>
+  </div>
+  
+  <% else %>
+  
+    <%= link_to icon_tag(:pencil), edit_admin_page_path(page)%>
+  
+  <% end %>
+  
+  <%= link_to_remote icon_tag(:remove), {:url => admin_page_path(page), 
+                                                     :confirm => 'Are you sure?', 
+                                                     :method => :delete}, 
+                                                     {:class=> "destroy", 
+                                                      :id => "#{page.dom_id}_destroy_link"} %>
+  
+  <ul id="<%= page.dom_id %>_children">
+    <li class="allow_child_nodes_hack">&nbsp;</li>
+    <%= render :partial => 'page', :collection => page.children %>
+  </ul>
+
+  
+</li>

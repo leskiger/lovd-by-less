@@ -1,0 +1,33 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+root_page:
+  title: root
+  body: MyText
+  parent_id: 
+  rgt: 8
+  lft: 1
+  kind: category
+
+catagory_page:
+  title: content_page
+  body: MyText
+  rgt: 3
+  lft: 2
+  kind: category
+  parent_id: 1
+
+content_page:
+  title: content_page
+  body: MyText
+  rgt: 5
+  lft: 4
+  kind: content
+  parent_id: 1
+
+link_page:
+  title: link_page
+  body: MyText
+  rgt: 7
+  lft: 6
+  kind: link
+  parent_id: 1

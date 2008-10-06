@@ -1,3 +1,15 @@
+jQuery(document).ready(function() {
+	boxy_init('.boxy') ;
+  jQuery(".markitup").markItUp(mySettings);
+  jQuery(".page_markitup").markItUp(markItUpPageSettings);
+
+});
+
+function boxy_init(selector){
+	jQuery(selector).boxy();
+}
+
+
 var SLIDE_SPEED = 500
 
 

@@ -1,0 +1,10 @@
+<% less_remote_form_for page, :url => admin_page_path(page) do |f| %>
+  
+   <%= f.text_field :title %>
+
+  <%= render :partial => "#{page.kind}_form", :locals => {:f => f, :page => page}%>
+  <div class="clear"></div>
+  <div class="row button">
+    <%= f.submit "Save", :class => "button" %>
+  </div>
+<% end %>

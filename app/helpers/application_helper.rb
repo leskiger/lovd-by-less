@@ -84,4 +84,8 @@ module ApplicationHelper
   def if_admin
     yield if is_admin? @u
   end
+  
+  def icon_tag icon
+    image_tag "icons/#{icon}.png"
+  end
 end
