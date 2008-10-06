@@ -2,7 +2,7 @@ class Page < ActiveRecord::Base
   
   acts_as_nested_set :destroy_children => false
   
-  validates_presence_of :title, :kind, :menu_alignment
+  validates_presence_of :title, :kind
   
   after_create :set_initial_parent
   before_create :ensure_root_exists
