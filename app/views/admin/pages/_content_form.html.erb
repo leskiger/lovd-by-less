@@ -1,1 +1,7 @@
-  <%= f.text_area :body, {:class => "markitup", :plain => true} %>
+<div class="content_page_options_holder">
+  <h2>Options:</h2>
+  <%= f.select :menu_alignment, {'Left' => 'left', 'Right' => 'right'}%>
+
+</div>  
+  
+  <%= f.text_area :body, {:class => "page_markitup", :plain => true} %>

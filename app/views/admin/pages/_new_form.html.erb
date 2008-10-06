@@ -4,7 +4,8 @@
 
 <% less_remote_form_for page, :url => admin_pages_path do |f| %>
   <%= f.text_field :title %>
-  <%= f.select :kind, page_kinds, {:include_blank => true}%>
+  <%= f.select :kind, page_kinds%>
+  <%= f.select :menu_alignment, {'Left' => 'left', 'Right' => 'right'}%>
 
   <div class="row button">
     <%= f.submit "Create", :class => "button" %>

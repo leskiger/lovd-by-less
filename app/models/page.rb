@@ -2,10 +2,12 @@ class Page < ActiveRecord::Base
   
   acts_as_nested_set :destroy_children => false
   
-  validates_presence_of :title, :kind
+  validates_presence_of :title, :kind, :menu_alignment
   
   after_create :set_initial_parent
   before_create :ensure_root_exists
+  
+  has_many :assets, :dependent => :destroy, :order => 'created_at DESC'
   
   @@root_page_title = 'root'
   

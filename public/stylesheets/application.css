@@ -333,6 +333,27 @@ form input.title {
 }
 
 
+.asset_admin {
+	margin-bottom: 10px;
+}
+
+.asset_admin .thumbnail {
+	float: left;
+	margin-right: 10px;
+}
+
+.content_page_options_holder {
+	float: right;
+	width: 150px;
+}
+
+.content_page_options_holder select {
+	width: 100px;
+}
+
+#asset_swfupload_form {
+	margin-bottom: 10px;
+}
 
 /*
 	Menu Styles
@@ -364,6 +385,7 @@ way to fit your requirements.
  
 /* Set up the list items */
 #pmenu li {float:left; background:#222;}
+#pmenu li.right {float:right;}
  
 /* For Non-IE browsers and IE7 */
 #pmenu li:hover {position:relative;}

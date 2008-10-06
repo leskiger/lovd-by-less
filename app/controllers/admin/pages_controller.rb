@@ -13,6 +13,10 @@ class Admin::PagesController < ApplicationController
     @page = Page.new(params[:page])
     post_response @page.save, :create
   end
+  
+  def edit
+    @asset = Asset.new
+  end
 
   def update
     post_response @page.update_attributes(params[:page]), :update

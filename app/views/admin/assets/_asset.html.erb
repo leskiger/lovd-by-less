@@ -1,0 +1,30 @@
+<div class="asset_admin asset" id="<%= asset.dom_id %>">
+  <div class="thumbnail">
+    <%= image asset, :square %>
+  </div>
+  
+  <b><%= asset_title asset, :null_message => "(title not set)" %></b>
+  <%= icon_tag(:pencil) %>
+  <%= link_to_remote icon_tag(:remove), {:url => admin_page_asset_path(asset.page, asset), 
+                                                     :confirm => 'Are you sure?', 
+                                                     :method => :delete}, 
+                                                     {:class=> "destroy", 
+                                                      :id => "#{asset.dom_id}_destroy_link"} %>
+                                                    
+  <p>
+    <%= asset_caption asset , :null_message => "(caption not set)"  %>
+  </p>
+  <form id="<%= asset.dom_id%>_insert_form" class="asset_insert_form">
+  
+  <input type="radio" name="asset_path" value="<%=image_path(asset, :square )%>" checked="checked">Thumbnail
+  <input type="radio" name="asset_path" value="<%=image_path(asset, :small )%>">Medium<br>
+  
+  <input type="radio" name="align" value="left" checked="checked">Left
+  <input type="radio" name="align" value="center">Center
+  <input type="radio" name="align" value="right">Right<br>
+  
+  <input type="button" class="insert_button" value="Insert">
+  </form>
+  <div class="clear"></div>
+
+</div>

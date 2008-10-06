@@ -1,13 +1,15 @@
 <%
  level ||= 0
+ menu_alignment = menu_item.menu_alignment ? menu_item.menu_alignment : ""
+ 
  if !menu_item.children.empty?
   if level == 0
-    li_class = "drop"
+    li_class = "drop #{menu_alignment}"
   else
     li_class = "fly"
   end
  else
-   li_class = ""
+   li_class = "#{menu_alignment}"
  end
  
  link_url = menu_item.kind == "category" ? "#" : menu_item_url(menu_item) 

@@ -8,6 +8,7 @@ class CreatePages < ActiveRecord::Migration
       t.integer :rgt
       t.integer :lft
       t.string :kind
+      t.string :menu_alignment
 
       t.timestamps
     end

@@ -8,10 +8,10 @@ Rails::Initializer.run do |config|
   
   # Cookie sessions (limit = 4K)
   config.action_controller.session = {
-    :session_key => '_your_app_name',
-    :secret      => 'make a secure key here'
+    :session_key => '_lovd_session_id',
+    :secret      => '6f559bad316b554fc9e92bbdb76c23ab'
   }
-  config.action_controller.session_store = :active_record_store
+  #config.action_controller.session_store = :active_record_store
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
@@ -27,4 +27,3 @@ Rails::Initializer.run do |config|
   
   
 end
-
