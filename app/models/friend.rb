@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 2
 #
 # Table name: friends
 #
@@ -18,6 +18,7 @@ class Friend < ActiveRecord::Base
   
   after_create :create_feed_item
   after_update :create_feed_item
+  attr_immutable :id, :invited_id, :inviter_id
   
   # Statuses Array
   

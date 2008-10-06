@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 2
 #
 # Table name: comments
 #
@@ -17,6 +17,7 @@
 class Comment < ActiveRecord::Base
   
   validates_presence_of :comment, :profile
+  attr_immutable :id, :profile_id, :commentable_id, :commentable_type
   
   belongs_to :commentable, :polymorphic => true
   belongs_to :profile

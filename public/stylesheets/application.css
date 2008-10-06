@@ -48,7 +48,7 @@ li				{list-style: none;}
 #demo_links	a:hover	{background: #999; color: #333;}
 #top a			{font-size: 20px;  font-weight: bold; color: #e185a7; margin: 0 8px;}
 #top img		{margin: 0 0 0 10px;}
-#top .right		{margin: 20px 0 0 0;}
+#top .right		{margin: 20px 0 0 0; width: 600px;}
 #top			{padding: 30px 0 20px 0;}
 
 #front_left_column		{width: 285px; margin: 25px 35px 15px 0;}
@@ -135,6 +135,7 @@ h2 a			{text-transform: capitalize; font-weight: normal; font-size: 11px;}
 #messages th	{padding: 3px;}
 #messages th	{background: #971d4a; font-size: 10px;}
 #messages		{width: 100%;}
+.unread {font-weight: bold;}
 
 .blurp			{padding: 0 0 15px 0;}
 .blurp strong	{display: block; color: white;}
