@@ -26,22 +26,38 @@ class Page < ActiveRecord::Base
     end
   end
   
+  ##
+  # title with parent titles
+  def full_title
+    parents.map { |parent| parent.title }.push(title).join(" - ")
+  end
+  
+  ##
+  # return the ancestors w/out the root node
+  def parents
+    ancestors.reject { |a| a.is_root?}
+  end
+  
+  def is_root?
+    title == @@root_page_title
+  end
+  
 private
   
   def permalink_titles
     titles = title
-    titles = self_and_ancestors.collect { |ancestor| ancestor.title+"-" unless ancestor.title == @@root_page_title } if id
+    titles = self_and_ancestors.collect { |ancestor| ancestor.title+"-" unless ancestor.is_root? } if id
     titles
   end
   
   def ensure_root_exists
     if !self.class.root or (self.class.root and self.class.root.title != @@root_page_title)
-      self.class.create({:title => @@root_page_title, :kind => 'category'}) unless self.title == @@root_page_title
+      self.class.create({:title => @@root_page_title, :kind => 'category'}) unless self.is_root?
     end
   end
   
   def set_initial_parent
-    move_to_child_of self.class.root unless self.title == @@root_page_title
+    move_to_child_of self.class.root unless self.is_root?
   end
   
 end

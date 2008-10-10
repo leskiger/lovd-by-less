@@ -46,7 +46,6 @@ class Admin::PagesController < ApplicationController
   end
   
   def update_positions
-    logger.info params[:pages_list].to_yaml
     Page.reorder params[:pages_list]
     render :nothing => true
   end

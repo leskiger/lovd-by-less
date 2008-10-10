@@ -19,5 +19,15 @@ module PagesHelper
   def menu_item_url page
     page.link_url ? page.link_url : page_path(page)
   end
+  
+  def page_crumb_trail page
+    page.parents.map { |ancestor|
+      page_crumb_trail_piece ancestor
+    }.insert(0, link_to('Home', '/')).join " > "
+  end
+  
+  def page_crumb_trail_piece page
+    page.kind == "category" ? page.title : link_to(page.title, menu_item_url(page))
+  end 
 
 end
