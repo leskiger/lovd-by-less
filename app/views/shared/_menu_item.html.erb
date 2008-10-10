@@ -1,30 +1,32 @@
-<%
- level ||= 0
- menu_alignment = menu_item.menu_alignment ? menu_item.menu_alignment : ""
+<%if menu_item.public
+   level ||= 0
+   menu_alignment = menu_item.menu_alignment ? menu_item.menu_alignment : ""
  
- if !menu_item.children.empty?
-  if level == 0
-    li_class = "drop #{menu_alignment}"
-  else
-    li_class = "fly"
-  end
- else
-   li_class = "#{menu_alignment}"
- end
+   if !menu_item.children.empty?
+    if level == 0
+      li_class = "drop #{menu_alignment}"
+    else
+      li_class = "fly"
+    end
+   else
+     li_class = "#{menu_alignment}"
+   end
  
- link_url = menu_item.kind == "category" ? "#" : menu_item_url(menu_item) 
- link_class = menu_item.kind == "category" ? "category" : ""
-%>
+   link_url = menu_item.kind == "category" ? "#" : menu_item_url(menu_item) 
+   link_class = menu_item.kind == "category" ? "category" : ""
+  %>
 
-<li class="<%= li_class %>">
-  <a href="<%= link_url %>" class="<%= link_class %>">
-    <%= menu_item.title%>
-    <%= "<!--[if IE 7]><!-->" unless menu_item.children.empty? %>
-  </a>
-    <%= "    <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->" unless menu_item.children.empty? %>
-<% unless menu_item.children.empty? %>
-  <ul>
-    <%= render :partial => 'shared/menu_item', :collection => menu_item.children, :locals => {:level => level} %>
-  </ul>
-<% end %>
-</li>
+  <li class="<%= li_class %>">
+    <a href="<%= link_url %>" class="<%= link_class %>">
+      <%= menu_item.title%>
+      <%= "<!--[if IE 7]><!-->" unless menu_item.children.empty? %>
+    </a>
+      <%= "    <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->" unless menu_item.children.empty? %>
+  <% unless menu_item.children.empty? %>
+    <ul>
+      <%= render :partial => 'shared/menu_item', :collection => menu_item.children, :locals => {:level => level} %>
+    </ul>
+  <% end %>
+  </li>
+
+<%end #if%>

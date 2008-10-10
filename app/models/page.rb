@@ -2,6 +2,8 @@ class Page < ActiveRecord::Base
   
   acts_as_nested_set :destroy_children => false
   
+  has_permalink :permalink_titles, {:create_on_update => true}
+  
   validates_presence_of :title, :kind
   
   after_create :set_initial_parent
@@ -10,6 +12,10 @@ class Page < ActiveRecord::Base
   has_many :assets, :dependent => :destroy, :order => 'created_at DESC'
   
   @@root_page_title = 'root'
+  
+  def to_param
+    permalink
+  end
   
   def self.reorder order_array, parent = nil
     parent ||= Page.root
@@ -21,6 +27,12 @@ class Page < ActiveRecord::Base
   end
   
 private
+  
+  def permalink_titles
+    titles = title
+    titles = self_and_ancestors.collect { |ancestor| ancestor.title+"-" unless ancestor.title == @@root_page_title } if id
+    titles
+  end
   
   def ensure_root_exists
     if !self.class.root or (self.class.root and self.class.root.title != @@root_page_title)

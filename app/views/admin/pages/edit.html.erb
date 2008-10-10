@@ -62,7 +62,7 @@
   
   function admin_pages_edit_swfupload_setup(){
     var settings = {
-			upload_url: "<%= admin_page_assets_path @page %>?_lovd_session_id=<%= session.session_id %>",
+			upload_url: "<%= admin_page_assets_path @page %>?_lovd_session_id=<%= CGI::escape(session.session_id)%>",
       flash_url : '/flash/swfupload_f9.swf',
 
       file_size_limit : '10000',

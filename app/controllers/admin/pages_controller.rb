@@ -30,7 +30,7 @@ class Admin::PagesController < ApplicationController
         format.xml  { head :ok }
         format.js do
           render :update do |page|
-            page.visual_effect :puff, @page.dom_id, :complete => page.remove(@page.dom_id)
+            page.visual_effect :puff, @page.dom_id
           end
         end
       else
@@ -54,7 +54,13 @@ class Admin::PagesController < ApplicationController
 private
 
   def setup
-    @page = params[:id] ? Page.find(params[:id]) : Page.new
+    if params[:id].to_i != 0
+      @page = Page.find(params[:id])
+    elsif params[:id]
+      @page = Page.find_by_permalink(params[:id])
+    else
+      @page = Page.new
+    end
   end
   
   def post_response saved, action

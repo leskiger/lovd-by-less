@@ -29,8 +29,7 @@ class Admin::AssetsController < ApplicationController
         format.xml  { head :ok }
         format.js do
           render :update do |page|
-            page.alert('look here')
-            page.visual_effect :puff, @asset.dom_id, :complete => page.remove(@asset.dom_id)
+            page.visual_effect :puff, @asset.dom_id
           end
         end
       else
@@ -54,7 +53,11 @@ class Admin::AssetsController < ApplicationController
 private
 
   def setup
-    @page = Page.find(params[:page_id])
+    if params[:page_id].to_i != 0
+      @page = Page.find(params[:page_id])
+    elsif params[:page_id]
+      @page = Page.find_by_permalink(params[:page_id])
+    end
     @asset = params[:id] ? Asset.find(params[:id]) : Asset.new
   end
   
